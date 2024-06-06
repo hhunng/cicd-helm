@@ -93,16 +93,7 @@ pipeline {
                 sh "docker rmi $registry:V$BUILD_NUMBER"
             }
         }
-        stage('Upload Image') {
-            steps {
-                script {
-                    docker.withRegistry('', registryCredential) {
-                        dockerImage.push("V$BUILD_NUMBER")
-                        dockerImage.push("latest")
-                    }
-                }
-            }
-        }
+
         stage('Kubernetes Deploy') {
             agent {label 'KOPS'}
             step {
